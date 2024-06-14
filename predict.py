@@ -33,7 +33,7 @@ def analyze_file(file):
         model.fit()
         model.cross_validate_and_fit()
         model.predict()
-        model.plot(filename)
+        model.plot(filename.split(".")[0])
 
 
 def main():

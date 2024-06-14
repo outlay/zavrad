@@ -28,14 +28,18 @@ class ClassificationTreeModel:
         cm = confusion_matrix(self.y_test, self.y_pred, labels=self.cltree_model.classes_)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["Cijena pada", "Cijena raste"])
         disp.plot(ax=ax)
-        ax.set_title(f"Stablo odluke - {title}")
+        ax.set_title(f"Stablo odluke - {title}", fontsize=20)
+        ax.set_xlabel('Predviđeno', fontsize=20)
+        ax.tick_params(axis='both', which='major', labelsize=10)
         precision = precision_score(self.y_test, self.y_pred)
         accuracy = accuracy_score(self.y_test, self.y_pred)
         recall = recall_score(self.y_test, self.y_pred)
+        for text in disp.text_.ravel():
+            text.set_fontsize(32)
 
-        plt.figtext(0.5, 0.1,
+        plt.figtext(0.80, 0.03,
                     f"Preciznost: {precision:.4f}\nTočnost: {accuracy:.4f}\nOdziv: {recall:.4f}",
-                    ha="center", fontsize=12, bbox={"facecolor": "white", "alpha": 0.5, "pad": 5})
+                    ha="center", fontsize=24, bbox={"facecolor": "white", "alpha": 0.5, "pad": 5})
         plt.subplots_adjust(bottom=0.2)
 
         filename = f"{title}_stablo_odluke.png"
