@@ -3,6 +3,8 @@ import glob
 from algo.decision_tree import ClassificationTreeModel
 from algo.random_forest import RandomForestModel
 from algo.svm import SVMModel
+import multiprocessing
+from pathlib import Path
 
 def analyze_file(file):
     filename = file.split("\\")[1]
@@ -33,13 +35,13 @@ def analyze_file(file):
         model.fit()
         model.cross_validate_and_fit()
         model.predict()
-        model.plot(filename.split(".")[0])
+        model.plot(Path(filename).stem)
 
 
 def main():
     files = glob.glob('./data/*.csv')
-    for i, file in enumerate(files):
-        analyze_file(file)
+    with multiprocessing.Pool() as pool:
+        pool.map(analyze_file, files)
     print("")
 
 
